@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><DeployerSpec exitOnError="true" sourceType="Repository">
+<DeployerServer>
+<host>${machinename}:${isport}</host>
+<user>${Username}</user>
+<pwd>${Password}</pwd>
+<!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
+</DeployerServer>
+<Environment>
+<Repository>
+<repalias name="DemoRepo1">
+<type>FlatFile</type>
+<urlOrDirectory>C:\CICD_DEMO\BuildDir</urlOrDirectory>
+<Test>false</Test>
+</repalias>
+</Repository>
+<IS>
+<isalias name="local">
+<host>localhost</host>
+<port>6565</port>
+<user>Administrator</user>
+<pwd>${Password}</pwd>
+<!--<pwdHandle>$(PasswordHandle)</pwdHandle>-->
+<useSSL>false</useSSL>
+<version>9.12</version>
+<installDeployerResource>false</installDeployerResource>
+<Test>false</Test>
+<executeACL>Administrators</executeACL>
+</isalias>
+</IS>
+</Environment>
+<Projects projectPrefix="">
+<Project description="DemoCICDDeployment" name="DemoCICDDeployment" overwrite="false" type="Repository">
+<ProjectProperties>
+<Property name="projectLocking">false</Property>
+<Property name="concurrentDeployment">true</Property>
+<Property name="ignoreMissingDependencies">false</Property>
+<Property name="isTransactionalDeployment">true</Property>
+</ProjectProperties>
+<DeploymentSet autoResolve="full" description="" name="myDeploymentSet" srcAlias="DemoRepo1">
+<Composite name="zzTestPackage_Test" srcAlias="DemoRepo1" type="IS"/>
+<Composite name="zzTestPackage" srcAlias="DemoRepo1" type="IS"/>
+</DeploymentSet>
+<DeploymentMap description="" name="myDeploymentMap"/>
+<MapSetMapping mapName="myDeploymentMap" setName="myDeploymentSet">
+<alias type="IS">local</alias>
+</MapSetMapping>
+<DeploymentCandidate description="" mapName="myDeploymentMap" name="myDeployment"/>
+</Project>
+</Projects>
+</DeployerSpec>
